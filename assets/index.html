@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMP388 Sensor Monitor & Logger</title>
+
+    <style>
+        body {
+            background: #0d1117;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 30px 15px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 30px;
+            background: #161b22;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+
+        h1 {
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+
+        .controls-card {
+            background: #21262d;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid #30363d;
+            text-align: left;
+        }
+
+        .controls-title {
+            color: #8b949e;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .control-group label {
+            font-size: 14px;
+            color: #c9d1d9;
+        }
+
+        .control-group input {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: white;
+            padding: 6px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .control-group input[type="number"] {
+            width: 80px;
+        }
+
+        .btn {
+            width: 100%;
+            background: #238636;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: #2ea043;
+        }
+
+        .card {
+            background: #21262d;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid #30363d;
+        }
+
+        .card.alert {
+            border-color: #f85149 !important;
+            box-shadow: 0 0 10px rgba(248, 81, 73, 0.4);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card-label {
+            color: #8b949e;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #58a6ff;
+        }
+
+        .card-value.alert {
+            color: #f85149 !important;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 180px;
+            width: 100%;
+        }
+
+        #status {
+            margin-top: 15px;
+            color: #8b949e;
+            font-size: 14px;
+        }
+
+        .error-message {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #da3633;
+            color: #ffffff;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>BMP388 Environmental Matrix Logger</h1>
+
+        <!-- CONTROLS CARD -->
+        <div class="controls-card">
+            <div class="controls-title">Settings & Export</div>
+            
+            <div class="control-group">
+                <label for="intervalInput">Sampling Interval (seconds):</label>
+                <input type="number" id="intervalInput" value="2" min="1" max="60">
+            </div>
+
+            <div class="control-group">
+                <label for="tempThreshold">Max Temp Alert (°C):</label>
+                <input type="number" id="tempThreshold" value="30" step="0.5">
+            </div>
+
+            <div class="control-group">
+                <label for="pressThreshold">Min Pressure Alert (hPa):</label>
+                <input type="number" id="pressThreshold" value="980" step="1">
+            </div>
+
+        </div>
+
+        <!-- TEMPERATURE CARD -->
+        <div id="tempCard" class="card">
+            <div class="card-header">
+                <span class="card-label">Temperature</span>
+                <span id="tempValue" class="card-value">-- °C</span>
+            </div>
+            <div class="chart-container">
+                <canvas id="tempChart"></canvas>
+            </div>
+        </div>
+
+        <!-- PRESSURE CARD -->
+        <div id="pressCard" class="card">
+            <div class="card-header">
+                <span class="card-label">Barometric Pressure</span>
+                <span id="pressValue" class="card-value">-- hPa</span>
+            </div>
+            <div class="chart-container">
+                <canvas id="pressChart"></canvas>
+            </div>
+        </div>
+
+        <div id="status">Connecting to board...</div>
+        <div id="error-container" class="error-message" style="display: none;"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="libs/socket.io.min.js"></script>
+    <script src="libs/arduino.js"></script>
+    <script src="app.js"></script>
+
+</body>
+</html>

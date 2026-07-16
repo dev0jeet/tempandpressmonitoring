@@ -1,0 +1,12 @@
+profiles:
+  default:
+    fqbn: 
+    platforms:
+      - platform: arduino:zephyr
+    libraries:
+      - dependency: Arduino_RPClite (0.2.1)
+      - Adafruit BMP3XX Library (2.1.6)
+      - dependency: Adafruit BusIO (1.17.4)
+      - dependency: Adafruit Unified Sensor (1.1.15)
+
+default_profile: default
