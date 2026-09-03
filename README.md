@@ -39,7 +39,7 @@ Step 1.Clone this repository to your local machine using git:
 
 Bash
 
-git clone https://github.com/devojeet/tempandpressuremonitoring.git
+git clone https://github.com/devojeet/tempandpressmonitoring.git
 
 2.Install Dependencies:
 
